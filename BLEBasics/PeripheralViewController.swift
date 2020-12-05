@@ -26,12 +26,12 @@ class PeripheralViewController: UIViewController, CBPeripheralDelegate, UITableV
             tableView.dataSource = self
         }
     
-    override func viewDidAppear(animated: Bool)
+    override func viewDidAppear(_ animated: Bool)
         {
             print("Peripheral: \(peripheral)")
         
             nameLabel.text = peripheral.name ?? "No Name"
-            UUIDLabel.text = peripheral.identifier.UUIDString
+            UUIDLabel.text = peripheral.identifier.uuidString
         
             peripheral.delegate = self
             peripheral.readRSSI()

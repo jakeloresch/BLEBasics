@@ -84,12 +84,12 @@ class charsTableViewController: UITableViewController, CBPeripheralDelegate, UIT
         characteristicsTableView.estimatedRowHeight = 474
         //characteristicsTableView.rowHeight = UITableViewAutomaticDimension
         
-        print("\nSelected PeripheralUUID: \(peripheral.identifier.UUIDString)")
+        print("\nSelected PeripheralUUID: \(peripheral.identifier.uuidString)")
         
         print("Selected Peripheral Name: \(peripheral.name as NSString?)")
         
         peripheral.delegate = self
-        self.refreshControl?.addTarget(self, action: #selector(charsTableViewController.startScanningCharacteristics), for: .ValueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(charsTableViewController.startScanningCharacteristics), for: .valueChanged)
         print("Selected Service: \(service.uuid.description)")
         
         startScanningCharacteristics()
@@ -104,7 +104,7 @@ class charsTableViewController: UITableViewController, CBPeripheralDelegate, UIT
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
-    func startScanningCharacteristics()
+    @objc func startScanningCharacteristics()
     {
         
         
@@ -271,20 +271,20 @@ class charsTableViewController: UITableViewController, CBPeripheralDelegate, UIT
             
             print("\nDESCRIPTOR: \(desc.characteristic.uuid)....\(desc)....\(desc.uuid)...\(desc.value!)")
             
-            if desc.description.rangeOfString("Characteristic User Description") != nil
+            if desc.description.range(of: "Characteristic User Description") != nil
             {
                 characteristicUserDescription[desc.characteristic.uuid] = desc.value as?String
                 print("Stored User Description: \(desc.characteristic.uuid) : \(characteristicUserDescription[desc.characteristic.uuid]!) ")
             }
             
-            if desc.description.rangeOfString("Client Characteristic Configuration") != nil
+            if desc.description.range(of: "Client Characteristic Configuration") != nil
             {
-                characteristicSubscribed[desc.characteristic.UUID] = (desc.value! as AnyObject).uintValue
+                characteristicSubscribed[desc.characteristic.uuid] = (desc.value! as AnyObject).uintValue
                 print("Stored Client Characteristic Configuration (subscribed) : \(desc.characteristic.uuid) : \(characteristicSubscribed[desc.characteristic.uuid]!) ")
             }
             
             //SHORT FORM if let r = desc.description.rangeOfString("Characteristic Format")
-            if desc.description.rangeOfString("Characteristic Format", options: NSString.CompareOptions.LiteralSearch, range: desc.description.startIndex..<desc.description.endIndex,locale: nil) != nil
+            if desc.description.range(of: "Characteristic Format", options: NSString.CompareOptions.LiteralSearch, range: desc.description.startIndex..<desc.description.endIndex,locale: nil) != nil
             {
                 
                 characteristicFormatString[desc.characteristic.uuid] = "\(desc.value!)"
@@ -373,7 +373,7 @@ class charsTableViewController: UITableViewController, CBPeripheralDelegate, UIT
                     cell.ValueEntryField.delegate = self
                     if self.characteristicValue[Mycharacteristic.uuid] != nil
                     {
-                        let myString = String(self.characteristicValue[Mycharacteristic.UUID]!)
+                        let myString = String(self.characteristicValue[Mycharacteristic.uuid]!)
                         cell.ValueEntryField.text = myString
                     }
                     
