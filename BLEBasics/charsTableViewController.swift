@@ -86,11 +86,11 @@ class charsTableViewController: UITableViewController, CBPeripheralDelegate, UIT
             
              print("\nSelected PeripheralUUID: \(peripheral.identifier.UUIDString)")
        
-            print("Selected Peripheral Name: \(peripheral.name as NSString!)")
+        print("Selected Peripheral Name: \(peripheral.name as NSString?)")
             
             peripheral.delegate = self
-            self.refreshControl?.addTarget(self, action: #selector(charsTableViewController.startScanningCharacteristics), forControlEvents: .ValueChanged)
-            print("Selected Service: \(service.UUID.description)")
+        self.refreshControl?.addTarget(self, action: #selector(charsTableViewController.startScanningCharacteristics), for: .ValueChanged)
+        print("Selected Service: \(service.uuid.description)")
             
             startScanningCharacteristics()
            
@@ -113,7 +113,7 @@ class charsTableViewController: UITableViewController, CBPeripheralDelegate, UIT
         
        // peripheral.discoverCharacteristics(nil, forService: (service as CBService))
         foundCharacteristics.removeAll()
-        peripheral.discoverCharacteristics(nil, forService: service)
+        peripheral.discoverCharacteristics(nil, for: service)
     }
 
 
@@ -131,54 +131,54 @@ func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService s
             
                 print("Discovered characteristic:\(characteristic) with properties: \(characteristic.properties)")
                 //print("Characteristic service: \(characteristic.service.UUID)")
-                print("Characteristic UUID: \(characteristic.UUID)")
+        print("Characteristic UUID: \(characteristic.uuid)")
 
-            characteristicProps[characteristic.UUID] = characteristic.properties.rawValue
-                print("Characteristic Properties: \(characteristicProps[characteristic.UUID]!)")
+        characteristicProps[characteristic.uuid] = characteristic.properties.rawValue
+        print("Characteristic Properties: \(characteristicProps[characteristic.uuid]!)")
             
             var prpString = ""
             
-                if 0 != characteristicProps[characteristic.UUID]! & 1
+        if 0 != characteristicProps[characteristic.uuid]! & 1
                     {
                         prpString += "Broadcast."
                     }
-                if 0 != characteristicProps[characteristic.UUID]! & 2
+        if 0 != characteristicProps[characteristic.uuid]! & 2
                     {
                         prpString += "Read."
                     }
-                if 0 != characteristicProps[characteristic.UUID]! & 4
+        if 0 != characteristicProps[characteristic.uuid]! & 4
                     {
                         prpString +=  "Write without Response."
                     }
-                if 0 != characteristicProps[characteristic.UUID]! & 8
+        if 0 != characteristicProps[characteristic.uuid]! & 8
                     {
                         prpString +=  "Write."
                     }
-                if 0 != characteristicProps[characteristic.UUID]! & 16
+        if 0 != characteristicProps[characteristic.uuid]! & 16
                     {
                         prpString +=  "Notify."
                         //peripheral.setNotifyValue(true, forCharacteristic: characteristic) //If NOTIFY, let's subscribe for updates
                     }
-                if 0 != characteristicProps[characteristic.UUID]! & 32
+        if 0 != characteristicProps[characteristic.uuid]! & 32
                     {
                         prpString +=  "Indicate."
                     }
-                if 0 != characteristicProps[characteristic.UUID]! & 64
+        if 0 != characteristicProps[characteristic.uuid]! & 64
                     {
                         prpString +=  "Authenticated Signed Writes."
                     }
-                if 0 != characteristicProps[characteristic.UUID]! & 128
+        if 0 != characteristicProps[characteristic.uuid]! & 128
                     {
                         prpString +=  "Extended Properties."
                     }
             
-            characteristicPropString[characteristic.UUID] = prpString
-                print("Characteristic Properties String: \(characteristicPropString[characteristic.UUID]!)")
+        characteristicPropString[characteristic.uuid] = prpString
+        print("Characteristic Properties String: \(characteristicPropString[characteristic.uuid]!)")
             
             
             tableView.reloadData()
-            peripheral.discoverDescriptorsForCharacteristic(characteristic)
-            peripheral.readValueForCharacteristic(characteristic)
+        peripheral.discoverDescriptors(for: characteristic)
+        peripheral.readValue(for: characteristic)
             
             
         }
@@ -208,18 +208,18 @@ func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic charac
             let notMuchNS = NSData(bytes: &notMuch, length: sizeof(Int))
 
             characteristicValue[characteristic.UUID] = characteristic.value ?? notMuchNS
-            print("Stored value: \(characteristicValue[characteristic.UUID]!)")
+            print("Stored value: \(characteristicValue[characteristic.uuid]!)")
  
-            if let ASCIIstr = NSString(data: characteristic.value!, encoding: NSUTF8StringEncoding)
+            if let ASCIIstr = NSString(data: characteristic.value!, encoding: String.Encoding.utf8.rawValue)
                 {
-                    characteristicASCIIValue[characteristic.UUID] = ASCIIstr
-                    print("Stored ASCII: \(characteristicASCIIValue[characteristic.UUID]!)")
+                characteristicASCIIValue[characteristic.uuid] = ASCIIstr
+                print("Stored ASCII: \(characteristicASCIIValue[characteristic.uuid]!)")
                 }
             
-            characteristicHexValue[characteristic.UUID] = (String(format:"%2X",UpdateValue))
-            print("Stored Hex value: \(characteristicHexValue[characteristic.UUID]!)")
-            characteristicDecimalValue[characteristic.UUID] = (String(format:"%2D",UpdateValue))
-            print("Stored Decimal value: \(characteristicDecimalValue[characteristic.UUID]!)")
+            characteristicHexValue[characteristic.uuid] = (String(format:"%2X",UpdateValue))
+            print("Stored Hex value: \(characteristicHexValue[characteristic.uuid]!)")
+            characteristicDecimalValue[characteristic.uuid] = (String(format:"%2D",UpdateValue))
+            print("Stored Decimal value: \(characteristicDecimalValue[characteristic.uuid]!)")
         
             /* Interesting experiment to update just the TableView rows corresponding to the updated value
                 It didn't actually work.  You need to update the entire tableview.  But interesting...
@@ -583,12 +583,12 @@ override func tableView(characteristicsTableView: UITableView, cellForRowAtIndex
             {
                 let wrongString = writeString.stringByReplacingOccurrencesOfString("\"", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
                 let myNSString2: NSString = wrongString
-                newValueNSD = myNSString2.dataUsingEncoding(NSUTF8StringEncoding)!
+            newValueNSD = myNSString2.dataUsingEncoding(NSUTF8StringEncoding)! as NSData
             }
             
-        else if myNSString.containsString("0x") //But if it leads with 0x, let's scan for hex and send 32-bit hex value
+        else if myNSString.contains("0x") //But if it leads with 0x, let's scan for hex and send 32-bit hex value
             {
-                if writeString.characters.count < 11
+                if writeString.count < 11
                     {
                         newvalScanner.scanHexInt(&anothernewValue)
                         newValueNSD = NSData(bytes: &anothernewValue, length: sizeof(Int32))
@@ -608,13 +608,13 @@ override func tableView(characteristicsTableView: UITableView, cellForRowAtIndex
                 }
         
         
-        if myNSString.containsString("on") || myNSString.containsString("ON") //If it contains "on" send an 8-bit containing 1
+    if myNSString.contains("on") || myNSString.containsString("ON") //If it contains "on" send an 8-bit containing 1
             {
                 dummyValue = 1
                 newValueNSD = NSData(bytes: &dummyValue, length: sizeof(Int8))
             }
     
-        if myNSString.containsString("off") || myNSString.containsString("OFF")//If it contains "off" send an 8-bit containing 0
+    if myNSString.contains("off") || myNSString.contains("OFF")//If it contains "off" send an 8-bit containing 0
             {
                 dummyValue = 0
                 newValueNSD = NSData(bytes: &dummyValue, length: sizeof(Int8))
@@ -622,10 +622,10 @@ override func tableView(characteristicsTableView: UITableView, cellForRowAtIndex
         
        print ("After scanning we get...\(newValueNSD)")
 
-        characteristicValue[UNScharacteristic.UUID] = newValueNSD
-        print("New characteristic value = \(characteristicValue[UNScharacteristic.UUID]!)")
+    characteristicValue[UNScharacteristic.uuid] = newValueNSD
+    print("New characteristic value = \(characteristicValue[UNScharacteristic.uuid]!)")
  
-        peripheral.writeValue(newValueNSD, forCharacteristic: UNScharacteristic, type: CBCharacteristicWriteType.WithResponse)
+    peripheral.writeValue(newValueNSD as Data, for: UNScharacteristic, type: CBCharacteristicWriteType.withResponse)
   
         writeFlag = false //resume characteristic updates for notifies
     }
@@ -695,7 +695,7 @@ override func tableView(characteristicsTableView: UITableView, cellForRowAtIndex
             }
         else
             {
-                print("RSSI: \(RSSI.integerValue)")
+                print("RSSI: \(RSSI.intValue)")
                 // RSSILabel.text = "\(RSSI.integerValue)"
             }
     }
