@@ -12,7 +12,6 @@
 		D23895231D707CCA00387F36 /* blegaugesicon3.png in Resources */ = {isa = PBXBuildFile; fileRef = D23895181D707CCA00387F36 /* blegaugesicon3.png */; };
 		D23895241D707CCA00387F36 /* CharacteristicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23895191D707CCA00387F36 /* CharacteristicTableViewCell.swift */; };
 		D23895251D707CCA00387F36 /* charsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D238951A1D707CCA00387F36 /* charsTableViewController.swift */; };
-		D23895261D707CCA00387F36 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D238951B1D707CCA00387F36 /* Info.plist */; };
 		D23895271D707CCA00387F36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D238951C1D707CCA00387F36 /* Main.storyboard */; };
 		D23895281D707CCA00387F36 /* PeripheralsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D238951D1D707CCA00387F36 /* PeripheralsTableViewController.swift */; };
 		D23895291D707CCA00387F36 /* PeripheralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D238951E1D707CCA00387F36 /* PeripheralTableViewCell.swift */; };
@@ -125,13 +124,13 @@
 				TargetAttributes = {
 					317191D01ABA2D5D00BD9A91 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = G5P2U4YW5D;
+						DevelopmentTeam = 2VMDX2Q973;
 					};
 				};
 			};
 			buildConfigurationList = 317191CC1ABA2D5D00BD9A91 /* Build configuration list for PBXProject "BLEBasics" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -155,7 +154,6 @@
 				D27A54C21D767A48000A50FD /* bluetooth.png in Resources */,
 				D23895271D707CCA00387F36 /* Main.storyboard in Resources */,
 				D209E9921D708AF500B70D75 /* Images.xcassets in Resources */,
-				D23895261D707CCA00387F36 /* Info.plist in Resources */,
 				D23895331D707E4800387F36 /* LaunchScreen.xib in Resources */,
 				D23895231D707CCA00387F36 /* blegaugesicon3.png in Resources */,
 			);
@@ -199,6 +197,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 2VMDX2Q973;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -243,6 +242,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 2VMDX2Q973;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -273,6 +273,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.evtv.blebasics;
 				PRODUCT_NAME = BLEBasics;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -290,6 +291,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.evtv.blebasics;
 				PRODUCT_NAME = BLEBasics;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
