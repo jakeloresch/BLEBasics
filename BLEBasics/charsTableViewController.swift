@@ -178,7 +178,7 @@ class charsTableViewController: UITableViewController, CBPeripheralDelegate, UIT
             
             tableView.reloadData()
         peripheral.discoverDescriptors(for: characteristic)
-            peripheral.readValueForCharacteristic(characteristic)
+        peripheral.readValue(for: characteristic)
             
             
         }
@@ -397,7 +397,7 @@ func tableView(characteristicsTableView: UITableView, cellForRowAtIndexPath inde
                             let date2=NSDate()
                         let dateFormatter2 = DateFormatter()
                             dateFormatter2.dateFormat = "HH:mm:ss.SSS"
-                        let convertedDate2 = dateFormatter2.stringFromDate(date2 as Date)
+                        let convertedDate2 = dateFormatter2.string(from: date2 as Date)
   
                             subString = " - READ AT " + convertedDate2
                         }
@@ -419,7 +419,7 @@ func tableView(characteristicsTableView: UITableView, cellForRowAtIndexPath inde
                             let date=NSDate()
                         let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "HH:mm:ss.SSS"
-                        let convertedDate = dateFormatter.stringFromDate(date as Date)
+                        let convertedDate = dateFormatter.string(from: date as Date)
                         
                             subString = " - READ AT " + convertedDate
                         }
@@ -579,9 +579,9 @@ func tableView(characteristicsTableView: UITableView, cellForRowAtIndexPath inde
         
     if myNSString.contains("\"")  //If it contains text in quotes, let's send the text (without the quotes)
             {
-        let wrongString = writeString.stringByReplacingOccurrencesOfString("\"", withString: "", options: NSString.CompareOptions.LiteralSearch, range: nil)
+        let wrongString = writeString.replacingOccurrences(of: "\"", with: "", options: NSString.CompareOptions.LiteralSearch, range: nil)
                 let myNSString2: NSString = wrongString
-        newValueNSD = myNSString2.dataUsingEncoding(NSUTF8StringEncoding.rawValue)! as NSData
+        newValueNSD = myNSString2.data(using: String.Encoding.utf8.rawValue)! as NSData
             }
             
     else if myNSString.contains("0x") //But if it leads with 0x, let's scan for hex and send 32-bit hex value
