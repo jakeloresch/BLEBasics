@@ -210,7 +210,7 @@ func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic charac
             characteristicValue[characteristic.uuid] = characteristic.value ?? notMuchNS
             print("Stored value: \(characteristicValue[characteristic.uuid]!)")
  
-            if let ASCIIstr = NSString(data: characteristic.value!, encoding: NSUTF8StringEncoding.rawValue)
+            if let ASCIIstr = NSString(data: characteristic.value!, encoding: String.Encoding.utf8.rawValue)
                 {
                     characteristicASCIIValue[characteristic.uuid] = ASCIIstr
                     print("Stored ASCII: \(characteristicASCIIValue[characteristic.uuid]!)")
@@ -284,7 +284,7 @@ func peripheral(peripheral: CBPeripheral, didUpdateValueForDescriptor desc: CBDe
                 }
             
             //SHORT FORM if let r = desc.description.rangeOfString("Characteristic Format")
-            if desc.description.rangeOfString("Characteristic Format", options: NSString.CompareOptions.LiteralSearch, range: desc.description.startIndex..<desc.description.endIndex,locale: nil) != nil
+            if desc.description.range(of: "Characteristic Format", options: NSString.CompareOptions.literal, range: desc.description.startIndex..<desc.description.endIndex,locale: nil) != nil
                 {
                    
                     characteristicFormatString[desc.characteristic.uuid] = "\(desc.value!)"
@@ -579,8 +579,8 @@ func tableView(characteristicsTableView: UITableView, cellForRowAtIndexPath inde
         
     if myNSString.contains("\"")  //If it contains text in quotes, let's send the text (without the quotes)
             {
-        let wrongString = writeString.replacingOccurrences(of: "\"", with: "", options: NSString.CompareOptions.LiteralSearch, range: nil)
-                let myNSString2: NSString = wrongString
+        let wrongString = writeString.replacingOccurrences(of: "\"", with: "", options: NSString.CompareOptions.literal, range: nil)
+        let myNSString2: NSString = wrongString as NSString
         newValueNSD = myNSString2.data(using: String.Encoding.utf8.rawValue)! as NSData
             }
             
@@ -589,7 +589,7 @@ func tableView(characteristicsTableView: UITableView, cellForRowAtIndexPath inde
                 if writeString.count < 11
                     {
                     newvalScanner.scanHexInt32(&anothernewValue)
-                        newValueNSD = NSData(bytes: &anothernewValue, length: sizeof(Int32))
+                        newValueNSD = NSData(bytes: &anothernewValue, length: sizeOf(Int32))
                     }
                 else
                     {

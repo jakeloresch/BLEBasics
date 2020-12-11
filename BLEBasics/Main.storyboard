@@ -19,11 +19,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="blegaugesicon3.png" translatesAutoresizingMaskIntoConstraints="NO" id="atZ-Dm-UxR">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="blegaugesicon3.png" translatesAutoresizingMaskIntoConstraints="NO" id="atZ-Dm-UxR">
                                 <rect key="frame" x="138" y="446" width="84" height="88"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IgA-D6-ua1">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IgA-D6-ua1">
                                 <rect key="frame" x="70" y="74" width="220" height="215"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="215" id="ibj-lT-DNy"/>
+                                </constraints>
                                 <connections>
                                     <segue destination="yKS-ym-LnN" kind="show" id="bFy-DO-qE1"/>
                                 </connections>
@@ -42,8 +45,12 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <size key="shadowOffset" width="2" height="1"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLM-xf-gA8">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLM-xf-gA8">
                                 <rect key="frame" x="123" y="434" width="114" height="111"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="114" id="DDf-A4-2tg"/>
+                                    <constraint firstAttribute="height" constant="111" id="xgb-IT-8hX"/>
+                                </constraints>
                                 <connections>
                                     <segue destination="nrb-kI-WTu" kind="show" id="MXr-qb-o1E"/>
                                 </connections>
@@ -51,13 +58,19 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.90815329891235097" blue="0.68379315972534482" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="sIA-BV-aT1" firstAttribute="top" secondItem="IgA-D6-ua1" secondAttribute="bottom" constant="51" id="2zb-nk-3QB"/>
+                            <constraint firstItem="IgA-D6-ua1" firstAttribute="top" secondItem="cvL-A0-H1a" secondAttribute="topMargin" constant="-14" id="3AC-2S-0dU"/>
                             <constraint firstItem="cLM-xf-gA8" firstAttribute="centerX" secondItem="cvL-A0-H1a" secondAttribute="centerX" id="CTX-Qe-W9K"/>
+                            <constraint firstItem="cLM-xf-gA8" firstAttribute="top" secondItem="sIA-BV-aT1" secondAttribute="bottom" constant="22" id="Jde-23-9RN"/>
                             <constraint firstItem="vh8-O2-7e9" firstAttribute="centerX" secondItem="cvL-A0-H1a" secondAttribute="centerX" id="V06-wP-NW6"/>
                             <constraint firstItem="sIA-BV-aT1" firstAttribute="centerX" secondItem="cvL-A0-H1a" secondAttribute="centerX" id="VCr-Xc-ivn"/>
                             <constraint firstItem="vh8-O2-7e9" firstAttribute="centerX" secondItem="cvL-A0-H1a" secondAttribute="centerX" id="YNx-1T-LD2"/>
                             <constraint firstItem="atZ-Dm-UxR" firstAttribute="centerX" secondItem="cvL-A0-H1a" secondAttribute="centerX" id="Yj3-RZ-3ct"/>
+                            <constraint firstItem="KFR-Gf-KWi" firstAttribute="top" secondItem="cLM-xf-gA8" secondAttribute="bottom" constant="317" id="Z8i-Y2-m9B"/>
                             <constraint firstItem="IgA-D6-ua1" firstAttribute="centerX" secondItem="cvL-A0-H1a" secondAttribute="centerX" id="fGq-6V-WGq"/>
                             <constraint firstItem="sIA-BV-aT1" firstAttribute="top" secondItem="vh8-O2-7e9" secondAttribute="bottom" constant="23" id="hCc-r1-phk"/>
+                            <constraint firstItem="IgA-D6-ua1" firstAttribute="leading" secondItem="cvL-A0-H1a" secondAttribute="leadingMargin" constant="50" id="tyl-yA-P8n"/>
+                            <constraint firstItem="cLM-xf-gA8" firstAttribute="centerY" secondItem="atZ-Dm-UxR" secondAttribute="centerY" id="wzJ-Sw-rwQ"/>
                             <constraint firstItem="vh8-O2-7e9" firstAttribute="top" secondItem="TiO-Uy-YjE" secondAttribute="bottom" constant="8" id="y2A-xi-b1l"/>
                         </constraints>
                     </view>
@@ -1156,6 +1169,7 @@ The bottom line of the Table View entry is in red and puts all the presentation 
                     </tableView>
                     <navigationItem key="navigationItem" title="Peripherals" id="zAJ-cu-eWp"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Our-NY-H2x">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <attributedString key="attributedTitle">
                             <fragment content="Finding Peripherals...">
