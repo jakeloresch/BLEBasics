@@ -36,8 +36,8 @@ class PeripheralsTableViewController: UITableViewController, CBCentralManagerDel
     var isBluetoothEnabled = false
     var visiblePeripheralUUIDs = NSMutableOrderedSet()
     var visiblePeripherals = [String: Peripheral]()
-    var scanTimer: NSTimer?
-    var connectionAttemptTimer: NSTimer?
+    var scanTimer: Timer?
+    var connectionAttemptTimer: Timer?
     var connectedPeripheral: CBPeripheral?
     
     required init?(coder aDecoder: NSCoder)
@@ -46,7 +46,7 @@ class PeripheralsTableViewController: UITableViewController, CBCentralManagerDel
             manager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey: true])
         }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
         {
             super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
             manager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey: true])
@@ -57,13 +57,13 @@ class PeripheralsTableViewController: UITableViewController, CBCentralManagerDel
             super.viewDidLoad()
             tableView.delegate = self
             tableView.dataSource = self
-            tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
             tableView.estimatedRowHeight = 134
-            self.refreshControl?.addTarget(self, action: #selector(PeripheralsTableViewController.startScanning), forControlEvents: .ValueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(PeripheralsTableViewController.startScanning), for: .valueChanged)
         }
     
     
-    override func viewDidAppear(animated: Bool)
+    override func viewDidAppear(_ animated: Bool)
         {
         if isBluetoothEnabled
             {
@@ -74,17 +74,17 @@ class PeripheralsTableViewController: UITableViewController, CBCentralManagerDel
             }
         }
     
-    func startScanning()
+    @objc func startScanning()
         {
             print("Started scanning.")
             visiblePeripheralUUIDs.removeAllObjects()
         visiblePeripherals.removeAll(keepingCapacity: true)
             tableView.reloadData()
         manager.scanForPeripherals(withServices: nil, options: nil)
-        scanTimer = Timer.scheduledTimerWithTimeInterval(40, target: self, selector: #selector(PeripheralsTableViewController.stopScanning), userInfo: nil, repeats: false)
+        scanTimer = Timer.scheduledTimer(timeInterval: 40, target: self, selector: #selector(PeripheralsTableViewController.stopScanning), userInfo: nil, repeats: false)
         }
     
-    func stopScanning()
+    @objc func stopScanning()
         {
             print("Stopped scanning.")
             print("Found \(visiblePeripherals.count) peripherals.")
@@ -94,7 +94,7 @@ class PeripheralsTableViewController: UITableViewController, CBCentralManagerDel
         }
     
     
-    func timeoutPeripheralConnectionAttempt()
+    @objc func timeoutPeripheralConnectionAttempt()
         {
             print("Peripheral connection attempt timed out.")
             if let connectedPeripheral = connectedPeripheral
@@ -128,7 +128,10 @@ class PeripheralsTableViewController: UITableViewController, CBCentralManagerDel
             case .unknown:
                         printString = "Bluetooth hardware state unknown."
                         isBluetoothEnabled = false
-                }
+            @unknown default:
+                printString = "Bluetooth hardware state unknown."
+                isBluetoothEnabled = false
+            }
         
             print("State updated to: \(printString)")
         }
@@ -218,7 +221,7 @@ class PeripheralsTableViewController: UITableViewController, CBCentralManagerDel
                 if selectedPeripheral.connectable == "Yes"
                     {
                         connectedPeripheral = selectedPeripheral.peripheral
-                    connectionAttemptTimer = Timer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(PeripheralsTableViewController.timeoutPeripheralConnectionAttempt), userInfo: nil, repeats: false)
+                    connectionAttemptTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(PeripheralsTableViewController.timeoutPeripheralConnectionAttempt), userInfo: nil, repeats: false)
                     manager.connect(connectedPeripheral!, options: nil)
                     }
             }

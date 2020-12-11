@@ -46,7 +46,7 @@ class PeripheralViewController: UIViewController, CBPeripheralDelegate, UITableV
         
     }
     
-    func peripheral(peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: NSError?) {
+    private func peripheral(peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: NSError?) {
         print("Did read RSSI.")
         if let error = error {
             print("Error getting RSSI: \(error)")
@@ -56,7 +56,7 @@ class PeripheralViewController: UIViewController, CBPeripheralDelegate, UITableV
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAt indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let services = peripheral.services else
         {
             return UITableViewCell()
@@ -69,6 +69,7 @@ class PeripheralViewController: UIViewController, CBPeripheralDelegate, UITableV
         
         return cell
     }
+
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath?)
